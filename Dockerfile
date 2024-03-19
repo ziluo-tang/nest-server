@@ -7,17 +7,26 @@ LABEL email="1302947749@qq.com"
 RUN apt-get update
 RUN apt-get install git -y
 
-RUN git config --global user.email "1302947749@qq.com"
+RUN git clone https://github.com/ziluo-tang/nest-server.git /app/nest-server
 
-RUN git config --global user.name "tangxiaoxin"
+EXPOSE 3000
 
-WORKDIR /app
+WORKDIR /app/nest-server
 
-RUN git clone https://github.com/ziluo-tang/nest-server.git /nest-server
+RUN npm install && \
+    npm run build
 
-WORKDIR /nest-server
+RUN rm -rf src && \
+rm -rf test && \
+rm -rf tsconfig.json && \
+rm -rf yarn.lock && \
+rm -rf .gitignore && \
+rm -rf .eslintrc.js && \
+rm -rf .prettierrc.js && \
+rm -rf .vscode && \
+rm -rf .git && \
+rm -rf .idea && \
+rm -rf .DS_Store
 
-RUN npm install
-RUN npm run build
 
 CMD node dist/main
